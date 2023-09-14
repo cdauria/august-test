@@ -1,19 +1,30 @@
 .Card {
-    display: inline-block;
-    border: 10px solid rgb(255, 145, 0); /* Glowing orange border */
-    border-radius: 50px;
-    padding: 10px;
-    margin: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: large;
-    font-family: sans-serif;
-    background: linear-gradient(45deg, #f6d365, #f88b6d); /* Pastel blue gradient background */
-    color: white; /* White letters */
-    font-weight: bold; /* Bold letters */
-    text-align: center; /* Center align text */
-    text-shadow: 0px 0px 10px rgba(224, 122, 27, 0.75); /* Glowing text shadow */
-  }
+  display: inline-block;
+  border-radius: 5px;
+  padding: 25px;
+  margin: 10px;
+  font-size: large;
+  font-family: sans-serif;
+  background: linear-gradient(45deg, #f235df, #ffbf00, #abc3f5, #b687d8, #ffffff);
+  color: white;
+  font-weight: bold; 
+  text-align: center; 
+  z-index: 1000;
+  border: 10px solid transparent;
+  box-shadow: 0px 0px 10px #FF66C4;
+}
 
-.Card + .Card {
-    margin-left: 10px;
+.selected {
+  background: #91dfdf;
+}
+
+.button {
+  background: none; /* Make the background transparent */
+  color: #ffffff; /* Neon blue font color */
+  font-family: sans-serif;
+  font-size: 20px; /* Adjust font size as needed */
+  border: white;
+  padding: 20px;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #fa85ee, #a1bef9);
 }
