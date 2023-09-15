@@ -7,6 +7,7 @@ import getAirtableData from '../../utilities/getAirtableData'
 import styles from '../../components/Card.module.css'
 import h4 from '../../components/getOpenAIResults.module.css'
 
+
 const HomePage = () => {
     const [processedData, setProcessedData] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState({});
