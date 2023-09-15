@@ -23,7 +23,7 @@ const HomePage = () => {
       console.log(`Selected option for question ${questionId}: ${option}`);
     };
   
-    const getUnselectedOptions = (questionId) => {
+    const getUnselectedOptions = (questionId: string) => {
       const selectedOption = selectedOptions[questionId];
       const options =
         processedData.find((record) => record.id === questionId)?.options || [];
