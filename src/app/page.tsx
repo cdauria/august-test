@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import GetOpenAI from '../utilities/getOpenAI';
 import Card from '../components/Card';
 import getAirtableData from '../utilities/getAirtableData';
-import '../globals.css'
 
 const HomePage = () => {
   const [processedData, setProcessedData] = useState([]);
