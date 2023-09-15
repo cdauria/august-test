@@ -15,7 +15,7 @@ const HomePage = () => {
     const [submittedOptions, setSubmittedOptions] = useState([]);
     const [loading, setLoading] = useState(false);
   
-    const handleCardSelect = (questionId: string, option: string) => {
+    const handleCardSelect = (questionId, option) => {
       setSelectedOptions((prevOptions) => ({
         ...prevOptions,
         [questionId]: option,
@@ -23,7 +23,7 @@ const HomePage = () => {
       console.log(`Selected option for question ${questionId}: ${option}`);
     };
   
-    const getUnselectedOptions = (questionId: string) => {
+    const getUnselectedOptions = (questionId) => {
       const selectedOption = selectedOptions[questionId];
       const options =
         processedData.find((record) => record.id === questionId)?.options || [];
