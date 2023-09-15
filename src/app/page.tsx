@@ -15,7 +15,7 @@ const HomePage = () => {
     const [submittedOptions, setSubmittedOptions] = useState([]);
     const [loading, setLoading] = useState(false);
   
-    const handleCardSelect = (questionId, option) => {
+    const handleCardSelect = (questionId: string, option: string) => {
       setSelectedOptions((prevOptions) => ({
         ...prevOptions,
         [questionId]: option,
