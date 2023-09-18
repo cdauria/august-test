@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import OpenAI from 'openai';
+import React, { useState, useEffect } from 'react'
+import OpenAI from 'openai'
+
 const openai = new OpenAI(
-  {apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY, dangerouslyAllowBrowser: true} // Replace with your API key
+  {apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY, dangerouslyAllowBrowser: true}
 );
 
 

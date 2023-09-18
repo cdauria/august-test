@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import GetOpenAI from '../../utilities/getOpenAI'
+import GetOpenAI from '@/utilities/getOpenAI';
 import Card from '../../components/Card'
 import getAirtableData from '../../utilities/getAirtableData'
 import styles from '../../components/Card.module.css'
