@@ -1,11 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import getOpenAI from '../../utilities/getOpenAI'
 import Card from '../../components/Card';
 import styles from '../../components/Card.module.css';
-import h4 from '../../components/getOpenAIResults.module.css';
-import route from '../api/airtable/route'
+
 
 const HomePage = () => {
   const [processedData, setProcessedData] = useState([]);
@@ -21,23 +19,24 @@ const HomePage = () => {
     console.log(`Selected option for question ${questionId}: ${option}`);
   };
 
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          const response = await fetch('src/app/api/airtable/route.js');
-          if (response.ok) {
-            const data = await response.json();
-            setProcessedData(data);
-          } else {
-            console.error('Error fetching data:', response.statusText);
-          }
-        } catch (error) {
-          console.error('Error fetching data:', error);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch('/api/airtable'); // Updated the API endpoint
+        if (response.ok) {
+          const data = await response.json();
+          setProcessedData(data.result); // Access the data using the 'result' key
+        } else {
+          console.error('Error fetching data:', response.statusText);
         }
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
+    }
   
-      fetchData();
-    }, []);
+    fetchData();
+  }, []);
+  
   
     return (
       <div className={styles.container}>
