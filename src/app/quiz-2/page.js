@@ -37,6 +37,25 @@ const HomePage = () => {
     fetchData();
   }, []);
   
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('/api/airtable', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ responses: selectedOptions }),
+      });
+  
+      if (response.ok) {
+        console.log("Data sent successfully.");
+      } else {
+        console.error('Error sending data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error sending data:', error);
+    }
+  };
   
     return (
       <div className={styles.container}>
@@ -50,8 +69,18 @@ const HomePage = () => {
             />
           </div>
         ))}
+        <div style={{ textAlign: 'center' }}>
+        <button onClick={handleSubmit}>Submit</button>
+        </div>
       </div>
     );
+    
   };
 
+
   export default HomePage;
+
+
+
+
+
