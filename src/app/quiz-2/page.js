@@ -1,15 +1,15 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import Card from '../../components/Card';
-import styles from '../../components/Card.module.css';
-
+import Card from '../../components/Card'
+import styles from '../../components/Card.module.css'
 
 const HomePage = () => {
   const [processedData, setProcessedData] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [submittedOptions, setSubmittedOptions] = useState([]);
-
+  const [generatedImage, setGeneratedImage] = useState([`""`]);
+  const [response, setResponse] = useState(null);
 
   const handleCardSelect = (questionId, option) => {
     setSelectedOptions((prevOptions) => [
@@ -18,6 +18,33 @@ const HomePage = () => {
     ]);
     console.log(`Selected option for question ${questionId}: ${option}`);
   };
+
+  const handleSubmit = async () => {
+    const prompt = selectedOptions.map(opt => opt.option).join(' ');
+    if (!prompt.trim()) {
+        console.error('Empty or invalid prompt');
+        return;
+    }
+    try {
+        const response = await fetch('api/openAI', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt }), // This sends the prompt to the server
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setGeneratedImage(data.imageUrl);
+        } else {
+            console.error('API request failed');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
 
   useEffect(() => {
     async function fetchData() {
@@ -36,51 +63,26 @@ const HomePage = () => {
   
     fetchData();
   }, []);
-  
-  const handleSubmit = async () => {
-    try {
-      const response = await fetch('/api/airtable', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ responses: selectedOptions }),
-      });
-  
-      if (response.ok) {
-        console.log("Data sent successfully.");
-      } else {
-        console.error('Error sending data:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error sending data:', error);
-    }
-  };
-  
-    return (
-      <div className={styles.container}>
-        <img src="/website banner test-update.png" alt="Title Image" className={styles.titleImage} />
-        {processedData.map((record) => (
-          <div key={record.id}>
-            <Card
-              options={record.options}
-              selectedOption={selectedOptions.find((item) => item.questionId === record.id)?.option || ''}
-              onSelect={(option) => handleCardSelect(record.id, option)}
-            />
-          </div>
-        ))}
-        <div style={{ textAlign: 'center' }}>
-        <button onClick={handleSubmit}>Submit</button>
+
+  return (
+    <div className={styles.container}>
+      <img src="/website banner test-update.png" alt="Title Image" className={styles.titleImage} />
+      {processedData.map((record) => (
+        <div key={record.id}>
+          <Card
+            options={record.options}
+            selectedOption={selectedOptions.find((item) => item.questionId === record.id)?.option || ''}
+            onSelect={(option) => handleCardSelect(record.id, option)}
+          />
         </div>
+      ))}
+       <div style={{ textAlign: 'center' }}>
+        <button onClick={handleSubmit}>Submit</button>
       </div>
-    );
-    
-  };
+        <div>
+          {generatedImage && <img src={generatedImage} alt="Generated from OpenAI" />}
+        </div>
+    </div>
+  )};
 
-
-  export default HomePage;
-
-
-
-
-
+export default HomePage;

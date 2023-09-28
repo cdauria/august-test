@@ -8,8 +8,8 @@ const HomePage = () => {
   const [processedData, setProcessedData] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [submittedOptions, setSubmittedOptions] = useState([]);
-  const [characterResult, setCharacterResult] = useState([]);
-
+  const [generatedImage, setGeneratedImage] = useState([""]);
+  const [response, setResponse] = useState(null);
 
   const handleCardSelect = (questionId, option) => {
     setSelectedOptions((prevOptions) => [
@@ -20,21 +20,31 @@ const HomePage = () => {
   };
 
   const handleSubmit = async () => {
-    const response = await fetch('/api/openai', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ responses: selectedOptions }),
-    });
-
-    if (response.ok) {
-        const data = await response.json();
-        setCharacterResult(data.character);
-    } else {
-        console.error("Error generating character description");
+    const prompt = selectedOptions.map(opt => opt.option).join(' ');
+    if (!prompt.trim()) {
+        console.error('Empty or invalid prompt');
+        return;
     }
-}
+    try {
+        const response = await fetch('api/openAI', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt }), // This sends the prompt to the server
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setGeneratedImage(data.imageUrl);
+        } else {
+            console.error('API request failed');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
 
   useEffect(() => {
     async function fetchData() {
@@ -53,8 +63,7 @@ const HomePage = () => {
   
     fetchData();
   }, []);
-  
-  
+
   return (
     <div className={styles.container}>
       <img src="/website banner test-update.png" alt="Title Image" className={styles.titleImage} />
@@ -67,17 +76,13 @@ const HomePage = () => {
           />
         </div>
       ))}
-      <div style={{ textAlign: 'center' }}>
-      <button onClick={handleSubmit}>Submit</button>
+       <div style={{ textAlign: 'center' }}>
+        <button onClick={handleSubmit}>Submit</button>
       </div>
-      {characterResult && (
         <div>
-          <h2>You're most like:</h2>
-          <p>{characterResult}</p>
-          </div>
-      )}
+          {generatedImage && <img src={generatedImage} alt="Generated from OpenAI" />}
+        </div>
     </div>
   )};
 
-
-  export default HomePage;
+export default HomePage;
