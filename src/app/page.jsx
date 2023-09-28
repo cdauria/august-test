@@ -60,9 +60,9 @@ const HomePage = () => {
         console.error('Error fetching data:', error);
       }
     }
-  
     fetchData();
-  }, []);
+    const revalidate = 3600 // revalidate at most every hour
+}, []);
 
   return (
     <div className={styles.container}>
